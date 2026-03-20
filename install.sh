@@ -2,10 +2,10 @@
 # ──────────────────────────────────────────────────────────────────────
 #  PVE Hardware Monitor - Install Script
 #  Real-time fan RPM, temps, battery & system monitoring for Proxmox
-#  https://github.com/YOUR_USERNAME/pve-hardware-monitor
+#  https://github.com/AviFR-dev/PVE-Hardware-Monitor
 #
 #  Usage:
-#    bash -c "$(wget -qLO - https://raw.githubusercontent.com/YOUR_USERNAME/pve-hardware-monitor/main/install.sh)"
+#    bash -c "$(wget -qLO - https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)"
 #
 #  Supports: Any Proxmox VE host with lm-sensors / EC / IPMI
 #  Special support: ASUS laptops with EC-based fan control
@@ -48,7 +48,7 @@ header() {
   echo "  ║       Real-time Proxmox HW Dashboard         ║"
   echo "  ╚══════════════════════════════════════════════╝"
   echo -e "${CL}"
-  echo -e "  ${DM}Version ${APP_VERSION} · github.com/YOUR_USERNAME/pve-hardware-monitor${CL}"
+  echo -e "  ${DM}Version ${APP_VERSION} · github.com/AviFR-dev/PVE-Hardware-Monitor${CL}"
   echo ""
 }
 
@@ -714,7 +714,7 @@ create_service() {
 [Unit]
 Description=PVE Hardware Monitor
 After=network.target
-Documentation=https://github.com/YOUR_USERNAME/pve-hardware-monitor
+Documentation=https://github.com/AviFR-dev/PVE-Hardware-Monitor
 
 [Service]
 Type=simple

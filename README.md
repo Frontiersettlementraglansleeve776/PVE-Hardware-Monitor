@@ -36,13 +36,13 @@ Real-time hardware monitoring dashboard for Proxmox VE hosts. Displays fan RPM, 
 SSH into your Proxmox host as root and run:
 
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/YOUR_USERNAME/pve-hardware-monitor/main/install.sh)"
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)"
 ```
 
 Or with curl:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/pve-hardware-monitor/main/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)"
 ```
 
 The installer will:
@@ -64,7 +64,7 @@ http://YOUR_PROXMOX_IP:9099/
 ## Uninstall
 
 ```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/YOUR_USERNAME/pve-hardware-monitor/main/install.sh)" -- --uninstall
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)" -- --uninstall
 ```
 
 Or manually:
