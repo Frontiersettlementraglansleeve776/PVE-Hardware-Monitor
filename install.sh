@@ -260,13 +260,13 @@ except: print('no')
 install_deps() {
   msg_info "Installing dependencies..."
 
-  apt-get update -qq >/dev/null 2>&1
-  apt-get install -y -qq lm-sensors >/dev/null 2>&1
+  apt-get update -qq >/dev/null
+  apt-get install -y -qq lm-sensors >/dev/null
   msg_ok "lm-sensors installed"
 
   # Install IPMI tools if device present or already detected
   if [[ "$HAS_IPMI" == "true" || "${SHOULD_INSTALL_IPMI:-false}" == "true" || -c /dev/ipmi0 || -c /dev/ipmi/0 ]]; then
-    apt-get install -y -qq ipmitool freeipmi-tools >/dev/null 2>&1
+    apt-get install -y -qq ipmitool freeipmi-tools >/dev/null
     msg_ok "ipmitool + freeipmi installed"
     modprobe ipmi_devintf 2>/dev/null || true
     modprobe ipmi_si      2>/dev/null || true
@@ -808,7 +808,6 @@ APIEOF
   sed -i "s|__SYSTEM_MODEL__|${SYSTEM_MODEL}|g"               "${INSTALL_DIR}/${API_FILE}"
   sed -i "s|__BIOS_VER__|${BIOS_VER}|g"                      "${INSTALL_DIR}/${API_FILE}"
   sed -i "s|__API_TOKEN__|${API_TOKEN}|g"                    "${INSTALL_DIR}/${API_FILE}"
-  sed -i "s|__DASHBOARD_TOKEN__|${API_TOKEN}|g"              "${INSTALL_DIR}/${DASHBOARD_FILE}"
 
   chmod +x "${INSTALL_DIR}/${API_FILE}"
   msg_ok "API server generated at ${INSTALL_DIR}/${API_FILE}"
@@ -1552,7 +1551,8 @@ setInterval(poll,3000);
 </html>
 HTMLEOF
 
-  # Patch API URL with detected host IP
+  # Patch token and API URL with detected values
+  sed -i "s|__DASHBOARD_TOKEN__|${API_TOKEN}|g"                    "${INSTALL_DIR}/${DASHBOARD_FILE}"
   sed -i "s|http://localhost:9099|http://${HOST_IP}:${API_PORT}|g" "${INSTALL_DIR}/${DASHBOARD_FILE}"
   msg_ok "Dashboard generated at ${INSTALL_DIR}/${DASHBOARD_FILE} (API → http://${HOST_IP}:${API_PORT})"
 }
